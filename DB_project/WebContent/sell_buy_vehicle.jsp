@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>차량 세부 정보</title>
+<title>판매, 구입 차량의 세부정보</title>
 </head>
 <body>
 	<h2>차량 세부 정보</h2>
@@ -29,38 +29,33 @@
 	
 	PreparedStatement pstmt;
 	ResultSet rs;
+	
+	
+	
 %>
-
-	<form action = "Buy.jsp" method = "POST">
-   	
-   	<input type = "text" name = "Vehicle_Number">&nbsp;
-	<input type = "submit" value = "구매하기"/>
-
-	</form>
+	
 	<form action = "main.html" method = "POST">
    	
 	<input type = "submit" value = "홈으로 가기"/>
 
 	</form>
 	&nbsp;&nbsp;&nbsp;&nbsp;
+	
 <%
-
-
-
+	String vehicle_number = request.getParameter("Vehicle_Number");
 	String sql = "SELECT VEHICLE.Vehicle_Number, VEHICLE.Mileage, VEHICLE.MName, VEHICLE.DMName, VEHICLE.Brand_Name, VEHICLE.Category, VEHICLE.Price, VEHICLE.Production_Date, "
 			+ "c.Name, f.Name, t.Trasmission_Type, VEHICLE.Engine_Displacement "
 			+ "FROM VEHICLE, "
-			+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S, "
 			+ "COLOR c, FUEL f, TRANSMISSION t "
-			+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
-			+ "AND VEHICLE.Ccode = c.Code AND VEHICLE.Fcode = f.Code AND VEHICLE.Tcode = t.Code "
-			+ "AND VEHICLE.MName = '" + request.getParameter("Model_Name") +"' "
-			+ "AND VEHICLE.Production_Date = '" + request.getParameter("Production_Date") +"' "
-			+ "AND VEHICLE.Price = '" + request.getParameter("Price") +"'";
+			+ "WHERE "
+			+ "VEHICLE.Ccode = c.Code AND VEHICLE.Fcode = f.Code AND VEHICLE.Tcode = t.Code "
+			+ "AND VEHICLE.Vehicle_Number = '" + vehicle_number + "'";
 			
 
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();
+	
+	
 	out.println("<table border=\"1\">");
 
 	out.println("<th>" + "Number" + "</th>");
@@ -107,28 +102,27 @@
 		
 %>
 	<script>
- 		alert("차량이 없습니다. 정확한 차량의 정보를 입력해주세요.");
- 		location.href="main.html"; 
+ 		alert("정확한 차량번호를 입력해주세요.");
+ 		
  	</script>
 <%		
 	}
 	//옵션 출력
 	sql = "SELECT a.Option_Name, m.Option_Classification "
-			+ "FROM ADDED_OPTION a, VEHICLE, MAIN_OPTION m, "
-			+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S "
-			+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
-			+ "AND VEHICLE.MName = '" + request.getParameter("Model_Name") +"' "
-			+ "AND VEHICLE.Production_Date = '" + request.getParameter("Production_Date") +"' "
-			+ "AND VEHICLE.Price = '" + request.getParameter("Price") +"'"
-			+ "AND S.Vehicle_Number = a.Vehicle_Number "
-			+ "AND a.Option_Name = m.Option_Name";
+			+ "FROM ADDED_OPTION a, VEHICLE, MAIN_OPTION m "
+			+ "WHERE "
+			+ "VEHICLE.Vehicle_Number = a.Vehicle_Number "
+			+ "AND a.Option_Name = m.Option_Name "
+			+ "AND VEHICLE.Vehicle_Number = '" + vehicle_number + "'";
 	
-	
+	System.out.println(sql);
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();
+	
 %>
 <br><br><br><br>
 <%	
+
 	out.println("<table border=\"1\">");
 
 	out.println("<th>" + "Option" + "</th>");
