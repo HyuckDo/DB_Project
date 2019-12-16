@@ -22,9 +22,37 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
 	<form>
-	ID:<input type="text" name="user_id"><br />
 	차량번호:<input type="text" name="vehicle_number"><br />
+	이유: <input type="text" name="reason"><br />
 	<input type="submit">
 	</form>
+	
+<%
+	String number = request.getParameter("vehicle_number");
+	String reason = request.getParameter("reason");
+	if(number != null && !number.equals("")){
+		StringBuffer sb = new StringBuffer();
+		try{
+			if(reason != null) {
+				sb.append("INSERT INTO HIDEN_LIST VALUES(\'"+number+"\', \'"+reason + "\')");
+			}
+			else {
+				sb.append("INSERT INTO HIDEN_LIST VALUES(\'"+number+"\', null)");
+			}
+			conn.setAutoCommit(false);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sb.toString());
+			conn.commit();
+		}	
+		catch(SQLException e){
+			System.out.println(e.toString());
+			conn.rollback();
+		}
+		finally{
+			conn.setAutoCommit(true);
+		}
+	}
+
+%>
 </body>
 </html>
