@@ -3,6 +3,12 @@
 <!-- import JDBC package -->
 <%@ page language="java" import="java.text.*, java.sql.*" %>
 <%@ page import = "java.util.*, java.text.*" %>
+<%@ page import = "java.net.*" %>
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +16,29 @@
 <title>차량 구매하기</title>
 </head>
 <body>
+	
+<%
+ 
+    // 쿠키값 가져오기
+    Cookie[] cookies = request.getCookies() ;
+     
+    if(cookies != null){
+         
+        for(int i=0; i < cookies.length; i++){
+            Cookie c = cookies[i] ;
+             
+            // 저장된 쿠키 이름을 가져온다
+            String cName = c.getName();
+             
+            // 쿠키값을 가져온다
+            String cValue = c.getValue() ;
+             
+             
+        }
+    }
+ 
+%>	
+	
 	
 	<form action = "main.html" method = "POST">
    	

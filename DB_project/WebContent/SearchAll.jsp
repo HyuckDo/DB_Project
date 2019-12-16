@@ -64,7 +64,7 @@
 <br><br>
 <%	
 	//판매중인 모든 차량의 정보 출력
-	String sql = "SELECT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price "
+	String sql = "SELECT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price, VEHICLE.Vehicle_Number "
 			+ "FROM VEHICLE, "
 			+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S, FUEL f "
 			+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
@@ -82,6 +82,7 @@
 	out.println("<th>" + "Production Date" + "</th>");
 	out.println("<th>" + "Fuel" + "</th>");
 	out.println("<th>" + "Price" + "</th>");
+	out.println("<th>" + "Vehicle_Number" + "</th>");
 	/*
 	for(int i=1; i<= cnt; i++){
 			
@@ -101,6 +102,7 @@
 		out.println("<td>" + strMSDate + "</td>");
 		out.println("<td>" + rs.getString(4) + "</td>");
 		out.println("<td>" + rs.getString(5) + "</td>");
+		out.println("<td>" + rs.getString(6) + "</td>");
 		out.println("</tr>");
 			
 		number++;

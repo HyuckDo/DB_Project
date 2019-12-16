@@ -69,41 +69,54 @@
 <br><br>
 <%	
 	//조건 검색
-	String[] data = new String[4];
+	String[] data = new String[6];
 	String add_data = "";
 	
-	String sql =  "SELECT DISTINCT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price "
+	String sql =  "SELECT DISTINCT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price, VEHICLE.Vehicle_Number "
 					+ "FROM VEHICLE, "
 					+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S, FUEL f, COLOR c, TRANSMISSION tr, CATEGORY ca "
 					+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
 					+ "AND VEHICLE.Fcode = f.Code ";
 			
 
-	data[0] = request.getParameter("Category");
-	data[1] = request.getParameter("Fuel");
-	data[2] = request.getParameter("Transmission");
-	data[3] = request.getParameter("Color");
+	data[0] = request.getParameter("Brand_Name");
+	data[1] = request.getParameter("Model_Name");
+	data[2] = request.getParameter("Category");
+	data[3] = request.getParameter("Fuel");
+	data[4] = request.getParameter("Transmission");
+	data[5] = request.getParameter("Color");
 	
 	
-	if(data[0] != "") { // 카테고리
-	
-		add_data +=  "AND VEHICLE.Category = ca.Category AND ca.Category = '" + data[0] + "' "; 
+	if(data[0] != "") { // 제조사
+		
+		add_data +=  "AND VEHICLE.Brand_Name = '" + data[0] + "' "; 
 	
 	}
-	if(data[1] != "") { // 연료
+	if(data[1] != "") { // 모델
 		
-		add_data +=  "AND f.Name = '" + data[1] + "' "; 
+		add_data +=  "AND VEHICLE.MName = '" + data[1] + "' "; 
+	
+	}
+	if(data[2] != "") { // 카테고리
+	
+		add_data +=  "AND VEHICLE.Category = ca.Category AND ca.Category = '" + data[2] + "' "; 
+	
+	}
+	if(data[3] != "") { // 연료
+		
+		add_data +=  "AND f.Name = '" + data[3] + "' "; 
 			
 	}
-	if(data[2] != "") { // 변속기
+	if(data[4] != "") { // 변속기
 	
-		add_data +=  "AND VEHICLE.Tcode = tr.Code AND tr.Trasmission_Type = '" + data[2] + "' "; 
+		add_data +=  "AND VEHICLE.Tcode = tr.Code AND tr.Trasmission_Type = '" + data[4] + "' "; 
 	}
-	if(data[3] != "") { // 색
+	if(data[5] != "") { // 색
 	
-		add_data +=  "AND VEHICLE.Ccode = c.Code AND c.Name = '" + data[3] + "' "; 
+		add_data +=  "AND VEHICLE.Ccode = c.Code AND c.Name = '" + data[5] + "' "; 
 	
 	}
+	
 	sql = sql.concat(add_data);
 	
 	pstmt = conn.prepareStatement(sql);
@@ -117,6 +130,7 @@
 	out.println("<th>" + "Production Date" + "</th>");
 	out.println("<th>" + "Fuel" + "</th>");
 	out.println("<th>" + "Price" + "</th>");
+	out.println("<th>" + "Vehicle_Number" + "</th>");
 	/*
 	for(int i=1; i<= cnt; i++){
 			
@@ -136,6 +150,7 @@
 		out.println("<td>" + strMSDate + "</td>");
 		out.println("<td>" + rs.getString(4) + "</td>");
 		out.println("<td>" + rs.getString(5) + "</td>");
+		out.println("<td>" + rs.getString(6) + "</td>");
 		out.println("</tr>");
 			
 		number++;

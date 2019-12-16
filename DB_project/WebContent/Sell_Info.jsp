@@ -70,8 +70,8 @@
     }
 	
 
-//	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + user_ID +"'";
-	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + "sdlkjlk123" +"'";	
+//	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + user_ID + "' " + "ORDER BY Sdate";
+	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + "sdlkjlk123" + "' " + "ORDER BY Sdate";	
 		
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();
