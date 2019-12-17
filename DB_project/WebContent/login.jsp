@@ -27,23 +27,35 @@
 	
    
 	<%   
-	   String query = "SELECT id,password,Class from ACCOUNT where ID =" + "'"+request.getParameter("id")+"'";
-      
-   	System.out.println(query);
+	String id="";
+	String pw="";
+	String cl="";
+	String query;
+	try{
+	 query = "SELECT id,password,Class from ACCOUNT where ID =" + "'"+request.getParameter("id")+"'";
 	pstmt = conn.prepareStatement(query);
    	rs = pstmt.executeQuery(query);
-    rs.next();
-	String id = rs.getString(1);
-    String cl = rs.getString(3);
-	%>   
+   	if(rs.next())
+    {
+    	id = rs.getString(1);
+    	pw = rs.getString(2);
+        cl = rs.getString(3);
+    }
+	}
+	catch(SQLException ex2)
+    {%>
+		<script>alert('아이디 혹은 비밀번호가 틀립니다.'); window.history.back();</script>
+	<% }%>
+	
+	  
 
 	<%
-   	if((request.getParameter("id")).equals(rs.getString(1)) && (request.getParameter("pw")).equals(rs.getString(2))) 
+   	if((request.getParameter("id")).equals(id) && (request.getParameter("pw")).equals(id))
    	{%>
    		<%  Cookie UserId = null;
    			UserId = new Cookie("ID", id);
    			UserId.setMaxAge(12*60*60);
-   			UserId.setPath("/");
+   			response.addCookie(UserId);
    		%>
    		   		<script>location.href = "login_main.html"; </script>
    	<%} else {%>
@@ -54,9 +66,7 @@
 
 	<%  
 
-   	
-   	rs.close();
-   	pstmt.close();
+  
    	conn.close();
 
 	%>

@@ -39,6 +39,7 @@
 	String bd1 = request.getParameter("bdate1");
 	String bd2 = request.getParameter("bdate2");
 	String bd3 = request.getParameter("bdate3");
+	String err_msg = null;
 	if(id.length() < 3 || pw.length() < 3 || nm.length() < 1 || te.length() < 10){%>
 		<script>alert("중복되는 아이디 거나 조건에 부합하지 않습니다."); window.history.back();</script>
 		<% 
@@ -46,11 +47,11 @@
 
 	else {
 		String query = "SELECT id from ACCOUNT where ID =" + "'"+request.getParameter("Id")+"'";
-		System.out.println(query);
+		
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery(query);
 		try {
-			System.out.println(bd);
+			
 			if(jo.length() == 0 || ad.length() == 0 || bd.length() < 3 || se.length() == 0) {
 			query = "insert into account values('"+id+"', '"+pw+"', '"+nm+"', '"+te+"', '"+jo+"', '"+ad+"', '', 1, '"+se+"')";
 			
@@ -61,13 +62,15 @@
 		}
 		pstmt = conn.prepareStatement(query);
 		rs = pstmt.executeQuery(query);%>
+		
 		<script>alert("회원가입이 완료 되었습니다.");
 		location.href = "unlogin_main.html";</script>
 		<%
-		}catch(SQLException ex2) {%>
-			<script>alert("sql error = " + ex2.getMessage()\n"아이디가 중복 되거나 양식에 맞지 않습니다.");
-			window.history.back();</script> 
-		<% }
+		}catch(SQLException ex2) {
+			System.err.println("sql error = " + ex2.getMessage());%>
+			<script>alert("아이디가 중복 되거나 양식에 맞지 않습니다."); window.history.back(); </script> 
+		<%
+		}
 	}
 
 

@@ -24,37 +24,78 @@
 		
 	%>
 	
-   
-	<%   
-	Cookie[] cookies = request.getCookies();
-	if(cookies != null){
-		Cookie c = cookies[0];
-		String id = c.getValue();
-	}
-	   String query = "SELECT * from ACCOUNT where ID =" + "'"+request.getParameter("id")+"'";
+	<form action = "change_info.jsp" method="post">
+	
+	
+	
+
+	<%
+	String pw="";
+	String nm="";
+	String te="";
+	String jo="";
+	String ad="";
+	String bd="";
+	String cl="";
+	
+	String id = request.getHeader("Cookie");
+	
+	if(id != null){
+		Cookie[] cookies = request.getCookies();
+		for(Cookie c:cookies)
+			if(c.getName().equals("ID")){
+				
+				id = c.getValue();
+			}
+		String query = "SELECT * from ACCOUNT where ID =" + "'"+ id +"'";
+	
+	   
       
-   	System.out.println(query);
+   	
 	pstmt = conn.prepareStatement(query);
    	rs = pstmt.executeQuery(query);
     rs.next();
-	String pw = rs.getString(2);
-	String nm=rs.getString(3);
-	String te=rs.getString(4);
-	String jo=rs.getString(5);
-	String ad=rs.getString(6);
-	String bd=rs.getString(7);
-	String cl=rs.getString(8);
-	String se=rs.getString(9);
-	   
+    id = rs.getString(1);
+	pw = rs.getString(2);
+	nm=rs.getString(3);
+	te=rs.getString(4);
+	jo=rs.getString(5);
+	ad=rs.getString(6);
+	bd=rs.getString(7);
+	
+	if(jo == null){
+		jo="";
+	}
+	if(ad == null){
+		ad="";
+	}
+	if(bd == null){
+		bd="";
+	}
+	
+	}
+%>
 
+		
+	
+	아이디:<input type ="text" name = "id" value = "<%=id%>"><br>
+	비밀번호:<input type ="text" name = "pass"><br>
+	이름:<input type ="text" name = "name" value = <%=nm%>><br>
+	전화번호:<input type ="text" name = "tell" value = <%=te%>><br>
+	직업:<input type ="text" name = "job" value = <%=jo%>><br>
+	주소:<input type ="text" name = "address" value = <%=ad%>><br>
+	생년월일<input type ="text" name = "date" value = <%=bd%>><br>
+	
+	
+
+
+	<input type ="submit" value = "수정하기"><br>
+
+ </form>
+
+
+<% 	
  
-   	if((request.getParameter("id")).equals(rs.getString(1)) && (request.getParameter("pw")).equals(rs.getString(2))) 
-   	{
-   		
-
-   	
-   	rs.close();
-   	pstmt.close();
    	conn.close();
 
 	%>
