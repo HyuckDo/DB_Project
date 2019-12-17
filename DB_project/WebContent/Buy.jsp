@@ -18,25 +18,18 @@
 <body>
 	
 <%
- 
-    // 쿠키값 가져오기
-    Cookie[] cookies = request.getCookies() ;
-     
-    if(cookies != null){
-         
-        for(int i=0; i < cookies.length; i++){
-            Cookie c = cookies[i] ;
-             
-            // 저장된 쿠키 이름을 가져온다
-            String cName = c.getName();
-             
-            // 쿠키값을 가져온다
-            String cValue = c.getValue() ;
-             
-             
-        }
-    }
- 
+ 	//쿠키 값
+	String user_id = request.getHeader("Cookie");
+	
+	if(user_id != null){
+	   Cookie[] cookies = request.getCookies();
+	   for(Cookie c:cookies)
+	      if(c.getName().equals("ID")){
+	         
+	    	  user_id = c.getValue();
+	      }
+	}
+	
 %>	
 	
 	
@@ -128,8 +121,7 @@
 	
 		if(c_vehicle_number.equals(vehicle_number) == true) {
 			sql = "INSERT INTO BUY VALUES('" + Bnumber + "', '"
-				//	+ AccId + "', '"
-					+ "sdlkjlk123" + "', '"	
+					+ user_id + "', '"
 					+ vehicle_number + "', '"
 					+ today + "'"
 					+ ")";
@@ -147,6 +139,13 @@
 			{
 				conn.rollback();
 				System.out.println(e.toString());
+				%>
+				<script>
+					alert("이미 구매 되었거나 로그인이 필요합니다.");
+					history.go(-1);
+				</script>
+<%
+				
 			}
 			finally{
 				conn.setAutoCommit(true);

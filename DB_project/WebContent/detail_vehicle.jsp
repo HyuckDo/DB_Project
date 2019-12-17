@@ -10,6 +10,21 @@
 <title>차량 세부 정보</title>
 </head>
 <body>
+
+<%
+	//쿠키 값
+	String user_id = request.getHeader("Cookie");
+	
+	if(user_id != null){
+	   Cookie[] cookies = request.getCookies();
+	   for(Cookie c:cookies)
+	      if(c.getName().equals("ID")){
+	         
+	    	  user_id = c.getValue();
+	      }
+	}
+
+%>
 	<h2>차량 세부 정보</h2>
 	<br><hr>
 	

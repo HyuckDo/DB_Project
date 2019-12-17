@@ -44,7 +44,7 @@
 	//판매중인 모든 차량의 정보 출력
 	String sql = "SELECT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price, VEHICLE.Vehicle_Number "
 			+ "FROM VEHICLE, "
-			+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S, FUEL f "
+			+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY  minus SELECT H.Vehicle_number from HIDEN_LIST H)S, FUEL f "
 			+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
 			+ "AND VEHICLE.Fcode = f.Code";
 	

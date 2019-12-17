@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>관리자 페이지</title>
 </head>
 <body>
 	<h2>관리자 페이지 - 숨겨진 차량 열람</h2>
@@ -28,7 +28,7 @@
 		out.println("<caption>숨겨진 차량</caption>");
 		try{
 			StringBuffer sb = new StringBuffer();
-			sb.append("SELECT V.VEHICLE_NUMBER, V.MNAME, V.DMNAME, S.ACCID, S.SDATE FROM HIDEN_LIST H, VEHICLE V, SELL S WHERE\n");
+			sb.append("SELECT V.VEHICLE_NUMBER, V.MNAME, V.DMNAME, S.ACCID, H.REASON FROM HIDEN_LIST H, VEHICLE V, SELL S WHERE\n");
 			sb.append("V.VEHICLE_NUMBER = S.VEHICLE_NUMBER AND V.VEHICLE_NUMBER = H.VEHICLE_NUMBER");
 			Statement stmt = conn.createStatement();
 			rs = stmt.executeQuery(sb.toString());

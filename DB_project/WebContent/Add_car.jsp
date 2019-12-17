@@ -180,7 +180,7 @@
 			// sell에 데이터 저장
 			sql = "INSERT INTO SELL VALUES('" + Snumber + "', '"
 					//	+ AccId + "', '"
-						+ "sdlkjlk123" + "', '"	
+						+ user_id + "', '"	
 						+ Vehicle_Number + "', '"
 						+ today + "'"
 						+ ")";

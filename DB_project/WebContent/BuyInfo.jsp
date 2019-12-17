@@ -18,6 +18,7 @@
 	<input type = "submit" value = "세부 정보 보기"/>
      
     </form>
+    <br><br>
     
     
 <%

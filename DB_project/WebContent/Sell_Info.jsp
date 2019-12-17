@@ -9,6 +9,21 @@
 <title>유저가 판매한 차량 정보</title>
 </head>
 <body>
+<%
+	String user_id = request.getHeader("Cookie");
+	
+	if(user_id != null){
+	   Cookie[] cookies = request.getCookies();
+	   for(Cookie c:cookies)
+	      if(c.getName().equals("ID")){
+	         
+	    	  user_id = c.getValue();
+	      }
+	}
+
+%>
+
+
 	<h2>판매한 차량</h2>
 	<br><hr>
 	
@@ -42,8 +57,7 @@
 
     
    //유저가 판매한 차량 정보
-  //String sql = "SELECT COUNT(*) FROM SELL WHERE SELL.AccId = '" + user_ID +"'";
-    String sql = "SELECT COUNT(*) FROM SELL WHERE SELL.AccId = '" + "sdlkjlk123" +"'";	
+  	String sql = "SELECT COUNT(*) FROM SELL WHERE SELL.AccId = '" + user_id +"'";
     	
     		
     pstmt = conn.prepareStatement(sql);
@@ -66,8 +80,7 @@
     }
 	
 
-//	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + user_ID + "' " + "ORDER BY Sdate";
-	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + "sdlkjlk123" + "' " + "ORDER BY Sdate";	
+	sql = "SELECT * FROM SELL WHERE SELL.AccId = '" + user_id + "' " + "ORDER BY Sdate";
 		
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();

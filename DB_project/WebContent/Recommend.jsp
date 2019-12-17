@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!-- import JDBC package -->
-<%@ page language="java" import="java.text.*, java.sql.*" %>
+<%@ page language="java" import="java.text.*, java.sql.*, java.util.Date, java.util.Calendar, java.util.GregorianCalendar" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,21 @@
 <title>성별 차량 추천</title>
 </head>
 <body>
+
+<%
+	String user_id = request.getHeader("Cookie");
+	
+	if(user_id != null){
+	   Cookie[] cookies = request.getCookies();
+	   for(Cookie c:cookies)
+	      if(c.getName().equals("ID")){
+	         
+	    	  user_id = c.getValue();
+	      }
+	}
+%>
+
+
 	<h2>회원 차량 추천</h2>
 	<br><hr>
 <%
@@ -107,6 +122,43 @@
 	
 	</form>
 
+<%
+	String sex = null;
+	Date date = new Date();
+	String sql_id = "SELECT SEX, Bdate FROM ACCOUNT";
+	
+	
+	pstmt = conn.prepareStatement(sql_id);
+	rs = pstmt.executeQuery();
+	while(rs.next()){
+		
+		sex = rs.getString(1);
+		date = rs.getDate(2);
+	}
+	int age;
+	Calendar birth = new GregorianCalendar();
+	Calendar today = new GregorianCalendar();
+	
+	
+	birth.setTime(date);
+	today.setTime(new Date());
+	
+	int factor =0;
+	if( today.get(Calendar.DAY_OF_YEAR) < birth.get(Calendar.DAY_OF_YEAR) ){
+		factor = -1;
+	}
+	
+	age = today.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR) + factor;
+	int ma_age = age/10 * 10;
+	
+	
+	
+	if(sex.equals('F')){
+		
+	
+%>
+
+
 
 	<br><br>
 	<h2>여성 고객이 가장 많이 구매한 차량 순위</h2>
@@ -116,8 +168,8 @@
 	String sql = "SELECT vehicle.brand_name, vehicle.Mname, vehicle.DMname, COUNT(*) "
 			+ "FROM VEHICLE, BUY, ACCOUNT "
 			+ "WHERE vehicle.vehicle_number = buy.vehicle_number AND account.id = buy.accid AND account.bdate is not null AND "
-			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) < 40 AND "
-			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) >= 30 AND "
+			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) < " + Integer.toString((ma_age + 10)) +" AND "
+			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) >= " + Integer.toString(ma_age) + " AND "
 			+ "account.sex is not null AND account.sex = 'F' "
 			+ "GROUP BY vehicle.brand_name, vehicle.Mname, vehicle.DMname ORDER BY COUNT(*) desc";
 	
@@ -152,7 +204,12 @@
 	}
 	out.println("</table>");
 		
-
+	
+	
+	}
+	else if(sex.equals('M')){
+		
+	
 %>	
 	<br><br>
 	
@@ -160,18 +217,21 @@
 
 
 <%	
+
+
 	//판매중인 모든 차량의 정보 출력
-	sql = "SELECT vehicle.brand_name, vehicle.Mname, vehicle.DMname, COUNT(*) "
+	String sql = "SELECT vehicle.brand_name, vehicle.Mname, vehicle.DMname, COUNT(*) "
 			+ "FROM VEHICLE, BUY, ACCOUNT "
 			+ "WHERE vehicle.vehicle_number = buy.vehicle_number AND account.id = buy.accid AND account.bdate is not null AND "
-			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) < 40 AND "
-			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) >= 30 AND "
+			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) < " + Integer.toString((ma_age + 10)) +" AND "
+			+ "TRUNC(MONTHS_BETWEEN(TRUNC(SYSDATE), account.bdate)/12) >= " + Integer.toString(ma_age) + " AND "
 			+ "account.sex is not null AND account.sex = 'M' "
 			+ "GROUP BY vehicle.brand_name, vehicle.Mname, vehicle.DMname ORDER BY COUNT(*) desc";
 	
 	
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();
+	
 	out.println("<table border=\"1\">");
 
 	
@@ -201,12 +261,14 @@
 	out.println("</table>");
 	
 	
+
+	}
 	
+
+
 	rs.close();
 	pstmt.close();
 	conn.close();
-	
-
 
 %>		
 	

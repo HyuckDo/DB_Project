@@ -30,32 +30,10 @@
 	
 %>
 	<form action = "detail_vehicle.jsp" method = "POST">
-   	Model Name :
-	<select name="Model_Name">
-     <option value="" selected></option>
-     <%
-
-      try {
-    
-       String sql = "SELECT Model_Name FROM MODEL GROUP BY Model_Name ORDER BY Model_Name";
-
-       pstmt = conn.prepareStatement(sql);
-       rs = pstmt.executeQuery();
-       while (rs.next()) {
-        String Model_Name = rs.getString(1);
-     %>
-     <option value="<%=Model_Name%>"><%=Model_Name%></option>
-     <%
-      }
-      } catch (SQLException se) {
-       System.out.println(se.getMessage());
-      }
-     %>
- 	</select>
-
-	Production Date: <input type = "text" name = "Production_Date">
-	Price: <input type = "text" name = "Price">
-
+   
+   		
+   		Vehicle Number : <input type = "text" name = "Vehicle_Number">
+		
 	<input type = "submit" value = "세부내용 검색하기"/>
 
 	</form>
@@ -70,7 +48,7 @@
 	
 	String sql =  "SELECT DISTINCT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price, VEHICLE.Vehicle_Number "
 					+ "FROM VEHICLE, "
-					+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY)S, FUEL f, COLOR c, TRANSMISSION tr, CATEGORY ca "
+					+ "(SELECT SELL.Vehicle_Number FROM SELL minus SELECT BUY.Vehicle_Number FROM BUY  minus SELECT H.Vehicle_number from HIDEN_LIST H)S, FUEL f, COLOR c, TRANSMISSION tr, CATEGORY ca "
 					+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
 					+ "AND VEHICLE.Fcode = f.Code ";
 			

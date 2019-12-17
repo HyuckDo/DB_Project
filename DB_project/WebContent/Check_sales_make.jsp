@@ -22,7 +22,7 @@
 	conn = DriverManager.getConnection(url, user, pass);
 %>
 
-<h2>관리자 페이지 - 제조사별 매출 확인</h2>
+<h2>관리자 페이지 - 국내/국외별 매출 확인</h2>
 <hr>
 <%!
 public ResultSet get_make(String sales_start, String sales_end, String country_code, Connection conn){
