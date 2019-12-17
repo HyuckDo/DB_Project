@@ -21,6 +21,8 @@
 	    	  user_id = c.getValue();
 	      }
 	}
+	
+	System.out.println(user_id);
 %>
 
 
@@ -125,7 +127,7 @@
 <%
 	String sex = null;
 	Date date = new Date();
-	String sql_id = "SELECT SEX, Bdate FROM ACCOUNT";
+	String sql_id = "SELECT SEX, Bdate FROM ACCOUNT WHERE ID='"+user_id +"'";
 	
 	
 	pstmt = conn.prepareStatement(sql_id);
@@ -144,16 +146,16 @@
 	today.setTime(new Date());
 	
 	int factor =0;
-	if( today.get(Calendar.DAY_OF_YEAR) < birth.get(Calendar.DAY_OF_YEAR) ){
+	if( today.get(Calendar.YEAR) < birth.get(Calendar.YEAR) ){
 		factor = -1;
 	}
 	
-	age = today.get(Calendar.DAY_OF_YEAR) - birth.get(Calendar.DAY_OF_YEAR) + factor;
+	age = today.get(Calendar.YEAR) - birth.get(Calendar.YEAR) + factor;
 	int ma_age = age/10 * 10;
 	
+	System.out.println(sex);
 	
-	
-	if(sex.equals('F')){
+	if(sex.equals("F")){
 		
 	
 %>
@@ -207,7 +209,7 @@
 	
 	
 	}
-	else if(sex.equals('M')){
+	else if(sex.equals("M")){
 		
 	
 %>	

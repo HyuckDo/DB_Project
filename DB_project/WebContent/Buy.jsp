@@ -156,7 +156,7 @@
 %>
 				<script>
 					alert("차량이 성공적으로 구매되었습니다.");
-					location.href="main.html";
+					location.href="login_main.html";
 				</script>
 <%
 			}
