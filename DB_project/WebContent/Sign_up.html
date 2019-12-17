@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>회원가입</h2>
+<h3>*가 포함된 것은 필수 입력 정보 입니다.</h3>
+<h3>모든 정보는 영어나 숫자만 입력 됩니다.</h3>
+<h3>아이디와 비밀번호는 3자리 이상이여야 합니다.</h3>
+<form action = "signup.jsp" method="post">
+
+
+<div class="fieldlabel"><label for="userId">*아이디</label></div>
+        <div class="formfield"><input type="text" id="userId" name="Id" minlength="1" maxlength="12" value="" style="ime-mode:disabled"></div>
+        
+        <div class="fieldlabel"><label for="userPw">*패스워드</label></div>
+        <div class="formfield"><input type="password" id="userPw" name="Pw" minlength="1" maxlength="20" style="ime-mode:disabled"></div>
+
+        
+        <div class="fieldlabel"><label for="userName">*이름</label></div>
+        <div class="formfield"><input type="text" id="userName" name="Name" minlength="1" maxlength="20" value="" style="ime-mode:disabled"></div>
+
+
+        
+        <div class="fieldlabel"><label for="phone1">*휴대전화</label></div>
+        <div class="formfield">
+            <input id="mPhone1" name="phone1" type="number" value="" size="3" maxlength="3" 
+            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">-
+            <input id="mPhone2" name="phone2" type="number" value="" size="4" maxlength="4" 
+            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">-
+            <input id="mPhone3" name="phone3" type="number" value="" size="4" maxlength="4" 
+            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+        </div>
+        <div class="fieldlabel"><label for="job">직업</label></div>
+        <div class="formfield"><input type="text" id="job" name="job" maxlength="15" style="ime-mode:disabled"></div>
+        
+        <div class="fieldlabel"><label for="address">주소</label></div>
+        <div class="formfield"><input type="text" id="address" name="address" maxlength="60" style="ime-mode:disabled"></div>
+        
+       <div class="fieldlabel"><label for="bdate1">생년월일</label></div>
+        <div class="formfield">
+     		<input id="bdate1" name="bdate1" type="" value="" size="4" maxlength="4" placeholder="YYYY">-
+            <input id="bdate2" name="bdate2" type="" value="" size="2" maxlength="2" placeholder="MM">-
+            <input id="bdate3" name="bdate3" type="" value="" size="2" maxlength="2" placeholder="DD">
+        </div>
+        
+        
+        <div class="fieldlabel"><label>성별</label></div>
+        <div class="formfield">
+            <input type="radio" name="sex" value="M" alt="남자" checked >남자
+            <input type="radio" name="sex" value="F" alt="여자" >여자
+        </div>
+        <div class="btnfield">
+            <input type="submit" value="회원가입" onclick="signup.jsp">
+        </div>
+       
+</form>
+</body>
+</html>
