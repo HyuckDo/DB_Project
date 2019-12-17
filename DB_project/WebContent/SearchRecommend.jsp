@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>조건 검색</title>
+<title>추천 차량 검색</title>
 </head>
 <body>
 	<h2>검색 된 차량</h2>
@@ -30,9 +30,32 @@
 	
 %>
 	<form action = "detail_vehicle.jsp" method = "POST">
-   		
-   		Vehicle Number : <input type = "text" name = "Vehicle_Number">
-		
+   	Model Name :
+	<select name="Model_Name">
+     <option value="" selected></option>
+     <%
+
+      try {
+    
+       String sql = "SELECT Model_Name FROM MODEL GROUP BY Model_Name ORDER BY Model_Name";
+
+       pstmt = conn.prepareStatement(sql);
+       rs = pstmt.executeQuery();
+       while (rs.next()) {
+        String Model_Name = rs.getString(1);
+     %>
+     <option value="<%=Model_Name%>"><%=Model_Name%></option>
+     <%
+      }
+      } catch (SQLException se) {
+       System.out.println(se.getMessage());
+      }
+     %>
+ 	</select>
+
+	Production Date: <input type = "text" name = "Production_Date">
+	Price: <input type = "text" name = "Price">
+
 	<input type = "submit" value = "세부내용 검색하기"/>
 
 	</form>
@@ -42,7 +65,7 @@
 <br><br>
 <%	
 	//조건 검색
-	String[] data = new String[6];
+	String[] data = new String[3];
 	String add_data = "";
 	
 	String sql =  "SELECT DISTINCT VEHICLE.MName, VEHICLE.DMName, VEHICLE.Production_Date, f.Name, VEHICLE.Price, VEHICLE.Vehicle_Number "
@@ -54,10 +77,8 @@
 
 	data[0] = request.getParameter("Brand_Name");
 	data[1] = request.getParameter("Model_Name");
-	data[2] = request.getParameter("Category");
-	data[3] = request.getParameter("Fuel");
-	data[4] = request.getParameter("Transmission");
-	data[5] = request.getParameter("Color");
+	data[2] = request.getParameter("Detailed_Model_Name");
+
 	
 	
 	if(data[0] != "") { // 제조사
@@ -72,24 +93,10 @@
 	}
 	if(data[2] != "") { // 카테고리
 	
-		add_data +=  "AND VEHICLE.Category = ca.Category AND ca.Category = '" + data[2] + "' "; 
+		add_data +=  "AND VEHICLE.DMName = '" + data[2] + "' "; 
 	
 	}
-	if(data[3] != "") { // 연료
 		
-		add_data +=  "AND f.Name = '" + data[3] + "' "; 
-			
-	}
-	if(data[4] != "") { // 변속기
-	
-		add_data +=  "AND VEHICLE.Tcode = tr.Code AND tr.Trasmission_Type = '" + data[4] + "' "; 
-	}
-	if(data[5] != "") { // 색
-	
-		add_data +=  "AND VEHICLE.Ccode = c.Code AND c.Name = '" + data[5] + "' "; 
-	
-	}
-	
 	sql = sql.concat(add_data);
 	
 	pstmt = conn.prepareStatement(sql);
@@ -133,8 +140,9 @@
 	if(number == 1){
 %>
 	<script>
- 		alert("차량이 없습니다.");
- 		location.href="SearchVehicle.jsp";
+ 		alert("차량이 없습니다. 정확한 정보를 입력해주세요.");
+ 		//location.href="SearchVehicle.jsp";
+ 		history.go(-1);
  	</script>
 <%	
 	}

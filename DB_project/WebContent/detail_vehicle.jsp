@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h2>차량 세부 정보</h2>
-	
+	<br><hr>
 	
 <%
 	
@@ -33,15 +33,11 @@
 
 	<form action = "Buy.jsp" method = "POST">
    	
-   	<input type = "text" name = "Vehicle_Number">&nbsp;
+   	Vehicle Number : <input type = "text" name = "Vehicle_Number">&nbsp;
 	<input type = "submit" value = "구매하기"/>
 
 	</form>
-	<form action = "main.html" method = "POST">
-   	
-	<input type = "submit" value = "홈으로 가기"/>
 
-	</form>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 <%
 
@@ -54,9 +50,7 @@
 			+ "COLOR c, FUEL f, TRANSMISSION t "
 			+ "WHERE VEHICLE.Vehicle_Number = S.Vehicle_Number "
 			+ "AND VEHICLE.Ccode = c.Code AND VEHICLE.Fcode = f.Code AND VEHICLE.Tcode = t.Code "
-			+ "AND VEHICLE.MName = '" + request.getParameter("Model_Name") +"' "
-			+ "AND VEHICLE.Production_Date = '" + request.getParameter("Production_Date") +"' "
-			+ "AND VEHICLE.Price = '" + request.getParameter("Price") +"'";
+			+ "AND VEHICLE.Vehicle_Number = '" + request.getParameter("Vehicle_Number") +"'";
 			
 
 	pstmt = conn.prepareStatement(sql);
@@ -108,7 +102,8 @@
 %>
 	<script>
  		alert("차량이 없습니다. 정확한 차량의 정보를 입력해주세요.");
- 		location.href="main.html"; 
+ 		//location.href="main.html";
+ 		history.go(-1);
  	</script>
 <%		
 	}

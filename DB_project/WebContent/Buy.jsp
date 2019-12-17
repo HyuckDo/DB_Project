@@ -40,11 +40,6 @@
 %>	
 	
 	
-	<form action = "main.html" method = "POST">
-   	
-	<input type = "submit" value = "홈으로 가기"/>
-
-	</form>
 <%
 	
 	//lab server
@@ -110,6 +105,7 @@
 %>
 		<script>
 			alert("차량번호를 잘못 입력하였거나 판매 중인 차량이 아닙니다.");
+			history.go(-1);
 		</script>
 <%		
 		}
@@ -137,9 +133,24 @@
 					+ vehicle_number + "', '"
 					+ today + "'"
 					+ ")";
-			
-			int res = pstmt.executeUpdate(sql);
-			System.out.println(res);
+			int res = 0;
+			try
+			{
+				String lock = "lock table buy in exclusive mode";
+				conn.setAutoCommit(false);
+				pstmt.execute(lock);
+				res = pstmt.executeUpdate(sql);
+				System.out.println(res);
+				conn.commit();
+			}
+			catch(SQLException e)
+			{
+				conn.rollback();
+				System.out.println(e.toString());
+			}
+			finally{
+				conn.setAutoCommit(true);
+			}
 			
 			
 			if(res == 1) {

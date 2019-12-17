@@ -10,11 +10,8 @@
 </head>
 <body>
 	<h2>검색 된 차량</h2>
-	<form action = "main.html" method = "POST">
-   	
-	<input type = "submit" value = "홈으로 가기"/>
+	<br><hr>
 
-	</form>
 <%
 	
 	//lab server
@@ -34,32 +31,9 @@
 	
 %>
 	<form action = "detail_vehicle.jsp" method = "POST">
-   	Model Name :
-	<select name="Model_Name">
-     <option value="" selected></option>
-     <%
-
-      try {
-    
-       String sql = "SELECT Model_Name FROM MODEL GROUP BY Model_Name ORDER BY Model_Name";
-
-       pstmt = conn.prepareStatement(sql);
-       rs = pstmt.executeQuery();
-       while (rs.next()) {
-        String Model_Name = rs.getString(1);
-     %>
-     <option value=<%=Model_Name%>><%=Model_Name%></option>
-     <%
-      }
-      } catch (SQLException se) {
-       System.out.println(se.getMessage());
-      }
-     %>
- 	</select>
-
-	Production Date: <input type = "text" name = "Production_Date">
-	Price: <input type = "text" name = "Price">
-
+   		
+   		Vehicle Number : <input type = "text" name = "Vehicle_Number">
+		
 	<input type = "submit" value = "세부내용 검색하기"/>
 
 	</form>

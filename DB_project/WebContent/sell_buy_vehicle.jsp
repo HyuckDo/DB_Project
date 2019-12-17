@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h2>차량 세부 정보</h2>
-	
+	<br><hr>
 	
 <%
 	
@@ -33,13 +33,7 @@
 	
 	
 %>
-	
-	<form action = "main.html" method = "POST">
-   	
-	<input type = "submit" value = "홈으로 가기"/>
 
-	</form>
-	&nbsp;&nbsp;&nbsp;&nbsp;
 	
 <%
 	String vehicle_number = request.getParameter("Vehicle_Number");
@@ -103,7 +97,7 @@
 %>
 	<script>
  		alert("정확한 차량번호를 입력해주세요.");
- 		
+ 		history.go(-1);
  	</script>
 <%		
 	}

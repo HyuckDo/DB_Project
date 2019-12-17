@@ -89,7 +89,6 @@
 			
 		
 			String scolor = "SELECT COLOR.Code, COLOR.Name FROM COLOR";
-			
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery(scolor);
 
@@ -136,17 +135,30 @@
 		
 			System.out.println(sql);
 
-	
-				
-			int res = pstmt.executeUpdate(sql);
-			System.out.println(res);
+			
+			String lock = "lock table vehicle in exclusive mode";
+			int res = 0;
+			try
+			{
+				conn.setAutoCommit(false);
+				pstmt.execute(lock);
+				res = pstmt.executeUpdate(sql);
+				conn.setAutoCommit(true);
+				System.out.println(res);
+			}
+			catch(SQLException e)
+			{
+				conn.rollback();
+				System.out.println(e.toString());
+			}
 				
 				
 			if(res == 1) {
 %>
 				<script>
-					alert("차량이 성공적으로 구매되었습니다.");
-					location.href="main.html";
+					alert("차량을 등록 했습니다.");
+					//location.href="main.html";
+					history.go(-1);
 				</script>
 <%
 			}
@@ -176,20 +188,23 @@
 			
 			System.out.println(sql);
 			
-
-
-				res = pstmt.executeUpdate(sql);
-				System.out.println(res);
-				
-				
-				if(res == 1) {
-		%>
-					<script>
-						alert("차량이 성공적으로 구매되었습니다.");
-						location.href="main.html";
-					</script>
-		<%
+				String sell_lock = "lock table sell in exclusive mode";
+				try
+				{
+					conn.setAutoCommit(false);
+					pstmt.execute(sell_lock);
+					res = pstmt.executeUpdate(sql);
+					System.out.println(res);
+					conn.commit();
+					conn.setAutoCommit(true);
 				}
+				catch(SQLException e)
+				{
+					conn.rollback();
+					System.out.println(e.toString());
+				}
+				
+
 	rs.close();
 	pstmt.close();
 	conn.close();

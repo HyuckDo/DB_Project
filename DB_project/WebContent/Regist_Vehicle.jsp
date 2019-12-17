@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!-- import JDBC package -->
-<%@ page language="java" import="java.text.*, java.sql.*" %>
+<%@ page language="java" import="java.text.*, java.sql.*, java.util.Date" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +11,7 @@
 <body>
 
 	<h2>판매할 차량의 정보를 입력 해주세요.</h2>
-<br><br>
+	<br><hr>
 <%
 	
 	//lab server
@@ -74,7 +74,7 @@
 
       try {
     
-       String sql = "SELECT Detailed_Model_Name, Mname FROM DETAILED_MODEL ORDER BY Detailed_Model_Name";
+       String sql = "SELECT Detailed_Model_Name, Mname FROM DETAILED_MODEL ORDER BY Mname";
 
        pstmt = conn.prepareStatement(sql);
        rs = pstmt.executeQuery();
@@ -106,7 +106,7 @@
        while (rs.next()) {
         String Brand_Name = rs.getString(1);
      %>
-     <option value=<%=Brand_Name%>><%=Brand_Name%></option>
+     <option value="<%=Brand_Name%>"><%=Brand_Name%></option>
      <%
       }
       } catch (SQLException se) {
@@ -131,7 +131,7 @@
        while (rs.next()) {
         String Category = rs.getString(1);
      %>
-     <option value=<%=Category%>><%=Category%></option>
+     <option value="<%=Category%>"><%=Category%></option>
      <%
       }
       } catch (SQLException se) {
@@ -145,9 +145,12 @@
 	Price : <input type = "text" name = "Price"> 만원
 	&nbsp;&nbsp;
 	
-	Production Date : <input type = "text" name = "Production_Date">
-	&nbsp;&nbsp;
-	
+	Production Date : <%
+		Date date = new Date();
+		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+		String strDate = simpleDate.format(date);
+		out.println("<input type=\"date\" name=\"Production_Date\" min=\"1980-01-01\" max=\""+ strDate + "\">&nbsp;\n");
+	%>
 	COLOR :
 	<select name="Color">
      <option value="" selected></option>
@@ -162,7 +165,7 @@
        while (rs.next()) {
         String CName = rs.getString(1);
      %>
-     <option value=<%=CName%>><%=CName%></option>
+     <option value="<%=CName%>"><%=CName%></option>
      <%
       }
       } catch (SQLException se) {
@@ -186,7 +189,7 @@
        while (rs.next()) {
         String FName = rs.getString(1);
      %>
-     <option value=<%=FName%>><%=FName%></option>
+     <option value="<%=FName%>"><%=FName%></option>
      <%
       }
       } catch (SQLException se) {
@@ -209,7 +212,7 @@
        while (rs.next()) {
         String Trasmission_Type = rs.getString(1);
      %>
-     <option value=<%=Trasmission_Type%>><%=Trasmission_Type%></option>
+     <option value="<%=Trasmission_Type%>"><%=Trasmission_Type%></option>
      <%
       }
       } catch (SQLException se) {
@@ -233,7 +236,7 @@
        while (rs.next()) {
         String Engine_Displacement = rs.getString(1);
      %>
-     <option value=<%=Engine_Displacement%>><%=Engine_Displacement%></option>
+     <option value="<%=Engine_Displacement%>"><%=Engine_Displacement%></option>
      <%
       }
       } catch (SQLException se) {

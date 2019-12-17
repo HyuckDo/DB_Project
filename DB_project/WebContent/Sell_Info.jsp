@@ -10,11 +10,7 @@
 </head>
 <body>
 	<h2>판매한 차량</h2>
-	<form action = "main.html" method = "POST">
-   	
-	<input type = "submit" value = "홈으로 가기"/>
-
-	</form>
+	<br><hr>
 	
 	<form action = "sell_buy_vehicle.jsp" method = "POST">
    	
